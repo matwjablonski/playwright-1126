@@ -1,0 +1,25 @@
+{
+  "name": "playwright-todo-lab",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host 0.0.0.0",
+    "lint": "eslint . && npm run typecheck",
+    "typecheck": "tsc --noEmit",
+    "build": "tsc && vite build",
+    "preview": "vite preview",
+    "test": "npm run typecheck && playwright test",
+    "test:ui": "playwright test --ui"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.39.5",
+    "@playwright/test": "^1.65.0",
+    "@types/node": "^22.10.2",
+    "eslint": "^9.39.5",
+    "globals": "^16.5.0",
+    "typescript": "^5.7.2",
+    "typescript-eslint": "^8.56.1",
+    "vite": "^6.0.3"
+  }
+}
