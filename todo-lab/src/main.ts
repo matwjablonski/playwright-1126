@@ -150,7 +150,7 @@ function renderTodos(): string {
     <section aria-labelledby="todos-title">
       <div class="page-header">
         <div>
-          <h2 id="todos-title" class="page-title">Lista zadań</h2>
+          <h2 id="todos-title" class="page-title custom-style">Lista wszystkich zadań</h2>
           <p class="muted">Aplikacja warsztatowa do ćwiczenia testów Playwright.</p>
         </div>
         <div class="button-row">
@@ -282,6 +282,7 @@ function renderTodo(todo: Todo): string {
     >
       <div>
         <h3 data-testid="todo-title">${escapeHtml(todo.task)}</h3>
+        <p>Przypisany: ${todo.owner?.name || 'Brak przypisania'}</p>
         <p>${escapeHtml(todo.description)}</p>
         <div class="todo-meta">
           <span class="badge" data-testid="todo-priority">Priorytet: ${getPriorityLabel(todo.priority)}</span>

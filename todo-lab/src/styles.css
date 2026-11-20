@@ -346,3 +346,9 @@ a {
     flex-wrap: wrap;
   }
 }
+
+.custom-style {
+  color: red;
+  text-transform: uppercase;
+  text-decoration: underline;
+}
