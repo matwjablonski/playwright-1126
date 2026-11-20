@@ -6,6 +6,8 @@ To repozytorium zawiera aplikację TodoLab do ćwiczeń oraz workbook uczestnika
 
 - [`todo-lab/`](./todo-lab/) — aplikacja Vite i TypeScript, którą będziemy testować w Playwright;
 - [`materials/workbook.pdf`](./materials/workbook.pdf) — zadania, pytania po ćwiczeniach i miejsce na notatki.
+- [`materials/additional.md`](./materials/additional.md) — sprawdzone materiały dodatkowe do warsztatów.
+- [`materials/presentation.pdf`](./materials/presentation.pdf) — prezentacja ze szkolenia.
 
 Wariant szkolenia: **wariant bazowy**.
 
@@ -18,27 +20,10 @@ Wariant szkolenia: **wariant bazowy**.
 ## Uruchomienie
 
 ```sh
-git clone https://github.com/matwjablonski/playwright-1126.git
-cd playwright-1126/todo-lab
+cd todo-lab
 npm ci
-npm run dev
+npx playwright install chromium firefox webkit
+npm test
 ```
-
-Aplikacja działa pod adresem `http://localhost:5173`. Hasło demonstracyjne to `admin123`.
-
-Zacznij od zadania 1 w workbooku. Projekt startowy celowo nie ma konfiguracji Playwright ani testów — powstaną w trakcie warsztatu.
-
-## Przydatne polecenia
-
-Uruchamiaj je z katalogu `todo-lab/`:
-
-```sh
-npm run lint
-npm run build
-```
-
-Po wykonaniu zadania 4 możesz uruchamiać `npm test` i `npm run test:ui`.
-
-## Kontakt
 
 Pytania po szkoleniu: [mail@mateuszjablonski.com](mailto:mail@mateuszjablonski.com).

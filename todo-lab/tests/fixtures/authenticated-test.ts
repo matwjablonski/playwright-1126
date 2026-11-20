@@ -4,7 +4,7 @@ import { appOrigin, sessionKey } from './auth-files';
 export const test = base.extend<{ authenticatedPage: Page }>({
   authenticatedPage: async ({ page }, use) => {
     await page.addInitScript(({ origin, key }) => {
-      if (window.location.origin === origin) {
+      if (window.location.origin === new URL(origin).origin) {
         sessionStorage.setItem(key, 'true');
       }
     }, { origin: appOrigin, key: sessionKey });

@@ -1,23 +1,28 @@
-import { expect, type Page } from '@playwright/test';
+import { expect, type Locator, type Page } from '@playwright/test';
 
 export class TodosPage {
-  constructor(private readonly page: Page) {}
+  private readonly form: Locator;
+  private readonly list: Locator;
+
+  constructor(private readonly page: Page) {
+    this.form = page.getByTestId('todo-form');
+    this.list = page.getByTestId('todo-list');
+  }
 
   async goto(): Promise<void> {
-    await this.page.goto('http://localhost:5173/#/todos');
+    await this.page.goto('/#/todos');
     await expect(this.page.getByTestId('todo-stats')).toBeVisible();
   }
 
   async addTodo(task: string, priority: '1' | '2' | '3'): Promise<void> {
-    const form = this.page.getByTestId('todo-form');
-    await form.getByRole('textbox', { name: 'Tytuł' }).fill(task);
-    await form.getByRole('combobox', { name: 'Priorytet' }).selectOption(priority);
-    await form.getByRole('button', { name: 'Dodaj zadanie' }).click();
+    await this.form.getByRole('textbox', { name: 'Tytuł' }).fill(task);
+    await this.form.getByRole('combobox', { name: 'Priorytet' }).selectOption(priority);
+    await this.form.getByRole('button', { name: 'Dodaj zadanie' }).click();
     await expect(this.todoByName(task)).toHaveCount(1);
   }
 
   async getTodoCount(): Promise<number> {
-    return this.page.getByTestId('todo-list').getByRole('listitem').count();
+    return this.list.getByRole('listitem').count();
   }
 
   async removeTodoByName(task: string): Promise<void> {
@@ -27,8 +32,8 @@ export class TodosPage {
     await expect(todo).toHaveCount(0);
   }
 
-  private todoByName(task: string) {
-    return this.page.getByTestId('todo-list').getByRole('listitem').filter({
+  todoByName(task: string) {
+    return this.list.getByRole('listitem').filter({
       has: this.page.getByRole('heading', { name: task, exact: true }),
     });
   }

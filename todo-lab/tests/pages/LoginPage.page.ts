@@ -1,22 +1,14 @@
-import { Page } from "@playwright/test";
+import type { Page } from '@playwright/test';
 
 export class LoginPage {
-    private readonly passwordField;
+  constructor(private readonly page: Page) {}
 
-    constructor(private readonly page: Page) {
-        this.passwordField = this.page.getByRole('textbox', { name: 'Hasło' });
-    }
+  async goto(): Promise<void> {
+    await this.page.goto('/#/login');
+  }
 
-    // get passwordField() {
-    //     return this.page.getByRole('textbox', { name: 'Hasło' });
-    // }
-
-    get submitButton() {
-        return this.page.getByRole('button', { name: 'Zaloguj' });
-    }
-
-    async login(password: string) {
-        await this.passwordField.fill(password);
-        await this.submitButton.press('Enter');
-    }
+  async login(password: string): Promise<void> {
+    await this.page.getByLabel('Hasło').fill(password);
+    await this.page.getByRole('button', { name: 'Zaloguj' }).click();
+  }
 }

@@ -1,20 +1,28 @@
-import { appOrigin, authFile } from './fixtures/auth-files';
+import { appOrigin, sessionKey } from './fixtures/auth-files';
 import { expect, test } from './fixtures/authenticated-test';
+import { LoginPage } from './pages/LoginPage.page';
 
 const todosUrl = `${appOrigin}/#/todos`;
 
 // Każdy test zaczyna z pustym stanem, niezależnie od konfiguracji innych projektów.
 test.use({ storageState: { cookies: [], origins: [] } });
 
-test('sam storageState nie przenosi logowania zapisanego w sessionStorage', async ({ browser }) => {
-  const restoredContext = await browser.newContext({ storageState: authFile });
+test('sam storageState nie przenosi logowania zapisanego w sessionStorage', async ({ browser, page }) => {
+  const loginPage = new LoginPage(page);
+  await loginPage.goto();
+  await loginPage.login('admin123');
+  await expect(page).toHaveURL(/#\/todos$/);
+  expect(await page.evaluate((key) => sessionStorage.getItem(key), sessionKey)).toBe('true');
+
+  const storageState = await page.context().storageState();
+  const restoredContext = await browser.newContext({ storageState });
   try {
     const restoredPage = await restoredContext.newPage();
     await restoredPage.goto(todosUrl);
 
     await expect(restoredPage).toHaveURL(/#\/login$/);
     await expect(restoredPage.getByTestId('login-form')).toBeVisible();
-    expect(await restoredPage.evaluate(() => sessionStorage.getItem('todolab.authenticated'))).toBeNull();
+    expect(await restoredPage.evaluate((key) => sessionStorage.getItem(key), sessionKey)).toBeNull();
   } finally {
     await restoredContext.close();
   }
